@@ -128,7 +128,10 @@
             timeoutInterval: 2000,
 
             /** The maximum number of reconnection attempts to make. Unlimited if null. */
-            maxReconnectAttempts: null
+            maxReconnectAttempts: null,
+
+            /** The binaryType attribute of the underlying ws object. */
+            binaryType: 'blob'
         }
         if (!options) { options = {}; }
 
@@ -228,6 +231,8 @@
                 timedOut = false;
             }, self.timeoutInterval);
 
+            ws.binaryType = this.binaryType;
+
             ws.onopen = function(event) {
                 clearTimeout(timeout);
                 if (self.debug || ReconnectingWebSocket.debugAll) {
@@ -286,7 +291,7 @@
         }
 
         // Whether or not to create a websocket upon instantiation
-        if (this.automaticOpen == true) {
+        if (this.automaticOpen === true) {
             this.open(false);
         }
 
